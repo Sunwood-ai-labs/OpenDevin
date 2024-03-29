@@ -7,3 +7,6 @@ RUN apt install -y iputils-ping net-tools
 
 COPY . .
 RUN pip install -r requirements.txt      
+
+RUN curl -fsSL https://get.docker.com -o get-docker.sh
+RUN sh get-docker.sh
