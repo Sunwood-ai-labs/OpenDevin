@@ -1,0 +1,32 @@
+version: '3'
+services:
+  backend:
+    build: ./opendevin
+    container_name: opendevin-backend
+    # restart: always
+    volumes:
+      - ./:/app/
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - /usr/bin/docker:/usr/bin/docker
+    ports:
+      - "${BACKEND_PORT}:3000"
+    env_file:
+      - .env
+    tty: true
+    working_dir : /app
+    # command: uvicorn opendevin.server.listen:app --port 3000
+    command: uvicorn opendevin.server.listen:app --host 0.0.0.0 --port 3000
+
+  frontend:
+    build: ./frontend
+    container_name: opendevin-frontend
+    # restart: always
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "${FRONTEND_PORT}:3003"
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    tty: true
