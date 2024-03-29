@@ -23,12 +23,13 @@ socket.addEventListener("message", (event) => {
     handleObservationMessage(socketMessage);
   }
 });
-socket.addEventListener("error", () => {
+socket.addEventListener("error", (event) => {
   store.dispatch(
     appendError(
-      `Failed connection to server. Please ensure the server is reachable at ${WS_URL}.`,
+      `Failed connection to server. Please ensure the server is reachable at ${WS_URL}. Error details: ${event.message}`,
     ),
   );
+  console.error("WebSocket error:", event);
 });
 
 export default socket;
